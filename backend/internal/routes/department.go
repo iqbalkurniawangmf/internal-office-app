@@ -11,16 +11,13 @@ import (
 
 func RegisterDepartmentRoutes(rg *gin.RouterGroup, db *gorm.DB) {
 
-	deptRepo := repository.NewDepartmentRepository(db)
-	deptService := service.NewDepartmentService(deptRepo)
-	deptHandler := handler.NewDepartmentHandler(deptService)
+    deptRepo := repository.NewDepartmentRepository(db)
+    deptService := service.NewDepartmentService(deptRepo)
+    deptHandler := handler.NewDepartmentHandler(deptService)
 
-	departments := rg.Group("/departments")
-	{
-		departments.POST("", deptHandler.CreateDepartment)
-		departments.GET("", deptHandler.GetAllDepartments)
-		departments.GET("/:id", deptHandler.GetDepartmentByID)
-		departments.PUT("/:id", deptHandler.UpdateDepartment)
-		departments.DELETE("/:id", deptHandler.DeleteDepartment)
-	}
+    rg.POST("", deptHandler.CreateDepartment)
+    rg.GET("", deptHandler.GetAllDepartments)
+    rg.GET("/:id", deptHandler.GetDepartmentByID)
+    rg.PUT("/:id", deptHandler.UpdateDepartment)
+    rg.DELETE("/:id", deptHandler.DeleteDepartment)
 }

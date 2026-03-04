@@ -1,20 +1,25 @@
 package routes
 
 import (
-	"net/http"
+    "internal-office-backend/internal/middleware"
+    "net/http"
 
-	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
+    "github.com/gin-gonic/gin"
+    "gorm.io/gorm"
 )
 
 func RegisterRoutes(rg *gin.RouterGroup, db *gorm.DB) {
 
-	rg.GET("/health", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"status":  "ok",
-			"message": "Internal Office Management API Running",
-		})
-	})
+    // Health check, tidak pakai auth
+    rg.GET("/health", func(c *gin.Context) {
+        c.JSON(http.StatusOK, gin.H{
+            "status":  "ok",
+            "message": "Internal Office Management API Running",
+        })
+    })
 
-	RegisterDepartmentRoutes(rg, db)
+    // Department routes, pakai Auth
+    deptGroup := rg.Group("/departments")
+    deptGroup.Use(middleware.AuthMiddleware()) 
+    RegisterDepartmentRoutes(deptGroup, db)
 }

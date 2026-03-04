@@ -3,7 +3,6 @@ package main
 import (
 	"internal-office-backend/config"
 	"internal-office-backend/internal/routes"
-	"internal-office-backend/internal/middleware"
 
 	"github.com/gin-gonic/gin"
 )
