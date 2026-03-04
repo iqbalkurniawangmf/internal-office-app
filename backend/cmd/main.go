@@ -2,20 +2,20 @@ package main
 
 import (
 	"internal-office-backend/config"
-	"internal-office-backend/internal/handler"
+	"internal-office-backend/internal/routes"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 
-	config.ConnectDatabase()
+	db := config.ConnectDatabase()
 
 	r := gin.Default()
 
 	api := r.Group("/api")
 	{
-		handler.RegisterRoutes(api)
+		routes.RegisterRoutes(api, db)
 	}
 
 	r.Run(":8080")

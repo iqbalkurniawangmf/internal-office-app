@@ -14,7 +14,7 @@ import (
 
 var DB *gorm.DB
 
-func ConnectDatabase() {
+func ConnectDatabase() *gorm.DB {
 
 	// Load .env
 	err := godotenv.Load()
@@ -36,11 +36,9 @@ func ConnectDatabase() {
 		log.Fatal("Failed to connect database:", err)
 	}
 
-	DB = database
 	log.Println("Database Connected Successfully")
 
-	// AUTO MIGRATION
-	err = DB.AutoMigrate(
+	err = database.AutoMigrate(
 		&model.Department{},
 		&model.User{},
 		&model.Leave{},
@@ -53,4 +51,6 @@ func ConnectDatabase() {
 	}
 
 	log.Println("Migration completed successfully")
+
+	return database
 }
